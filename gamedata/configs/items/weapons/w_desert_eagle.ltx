@@ -137,19 +137,26 @@ control_inertion_factor = 1.0f
         kill_msg_height             = 27
 		weapon_lower_speed			= 0.2
 		
+		scripted_snd_sprint_start             = weapons\detector_prepare 
+scripted_snd_sprint_end             = weapons\pistol_sprint_end
 
 [wpn_desert_eagle_hud]:hud_base
         item_visual                 = anomaly_weapons\wpn_desert_eagle\wpn_desert_eagle_hud.ogf
         attach_place_idx            = 0
         zoom_hide_crosshair         = true
         
-        item_position               = 0.0,0.0,0.0
-        item_orientation            = 0.0,0.0,0.0
-        
-        hands_position              = -0.015,-0.12,-0.04
-        hands_position_16x9         = -0.015,-0.12,-0.04
-        hands_orientation           = 0.0,0.0,-4.0
-        hands_orientation_16x9      = 0.0,0.0,-4.0
+hands_position				= 0.0,-0.13,0.03
+hands_orientation			= 0.0,0.0,0.0
+hands_position_16x9			= 0.0,-0.13,0.03
+hands_orientation_16x9			= 0.0,0.0,0.0
+
+aim_hud_offset_pos = 0.000000,0.01100,0.0
+aim_hud_offset_rot = -0.0020000,0.00000,0.0
+aim_hud_offset_pos_16x9 = 0.000000,0.01100,0.0
+aim_hud_offset_rot_16x9 = -0.0020000,0.00000,0.0
+
+item_position			= 0.0,0.0,0.0
+item_orientation		= 0.0,0.0,0.0
         
 		safemode_anm				= 
 		safemode_anm2				= 
@@ -159,11 +166,7 @@ control_inertion_factor = 1.0f
 
 		lowered_hud_offset_pos_16x9		= 0,0.1,0
 		lowered_hud_offset_rot_16x9		= 0.3,-0.1,0.1
-		
-        aim_hud_offset_pos               = 0.023587, 0.000602, 0
-        aim_hud_offset_pos_16x9          = 0.023587, 0.000602, 0
-        aim_hud_offset_rot               = -0.000639, 0.002438, -0.06
-        aim_hud_offset_rot_16x9          = -0.000639, 0.002438, -0.06
+
         
         gl_hud_offset_pos           = 0, 0, 0
         gl_hud_offset_rot           = 0, 0, 0
@@ -176,10 +179,10 @@ control_inertion_factor = 1.0f
         anm_idle                    = de_idle
         anm_idle_aim                = de_aim
         anm_idle_aim_empty             = de_aim, idle_empty
-        anm_idle_aim_moving         = desert_eagle_idle_moving, idle, 0.75
-        anm_idle_aim_moving_crouch  = desert_eagle_idle_moving, idle, 0.7
-        anm_idle_aim_moving_crouch_empty = desert_eagle_idle_moving, desert_eagle_opened, 0.7
-        anm_idle_aim_moving_empty   = desert_eagle_idle_moving, desert_eagle_opened, 0.75
+        anm_idle_aim_moving         = de_aim_walk
+        anm_idle_aim_moving_crouch  = de_aim_walk, 0.7
+        anm_idle_aim_moving_crouch_empty = de_aim_walk, idle_empty, 0.7
+        anm_idle_aim_moving_empty   = de_aim_walk, idle_empty
         anm_idle_empty              = de_idle, idle_empty
         anm_idle_moving             = de_walk
         anm_idle_moving_crouch      = de_slow_down
@@ -247,8 +250,31 @@ ts_strict_sprint_end_move        = anm_sprint_start, anm_idle_moving, anm_sprint
 [wpn_desert_eagle_sk1_hud]:wpn_desert_eagle_hud
         item_visual                 = anomaly_weapons\wpn_desert_eagle\wpn_desert_eagle_sk1_hud.ogf
 		
-		aim_hud_offset_rot               = 0.009656, 0.012995, -0.06
-        aim_hud_offset_rot_16x9          = 0.009656, 0.012995, -0.06
+	hands_position				= 0.0,-0.13,0.03
+hands_orientation			= 0.0,0.0,0.0
+hands_position_16x9			= 0.0,-0.13,0.03
+hands_orientation_16x9			= 0.0,0.0,0.0
 
-        hands_orientation                = 0.6, 0.59, -4
-        hands_orientation_16x9           = 0.6, 0.59, -4
+aim_hud_offset_pos = 0.000000,0.01100,0.0
+aim_hud_offset_rot = -0.0020000,0.00000,0.0
+aim_hud_offset_pos_16x9 = 0.000000,0.01100,0.0
+aim_hud_offset_rot_16x9 = -0.0020000,0.00000,0.0
+
+item_position			= 0.0,0.0,0.0
+item_orientation		= 0.0,0.0,0.0
+        
+		safemode_anm				= 
+		safemode_anm2				= 
+		
+		lowered_hud_offset_pos			= 0,0.1,0
+		lowered_hud_offset_rot			= 0.3,-0.1,0.1
+
+		lowered_hud_offset_pos_16x9		= 0,0.1,0
+		lowered_hud_offset_rot_16x9		= 0.3,-0.1,0.1
+
+        
+        gl_hud_offset_pos           = 0, 0, 0
+        gl_hud_offset_rot           = 0, 0, 0
+        
+        lean_hud_offset_pos         = 0, 0, 0
+        lean_hud_offset_rot         = 0, 0, 0

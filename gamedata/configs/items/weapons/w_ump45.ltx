@@ -259,23 +259,23 @@ item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_a
         aim_hud_offset_rot_16x9          = 0.000533, -1.4e-05, 0
 
 ;------------------------------------------------------------------------------------------------
-[wpn_ump45_acog]:wpn_ump45
-1icon_layer                              = acog
+[wpn_ump45_specter]:wpn_ump45
+1icon_layer                              = specter
 1icon_layer_x                            = 80
 1icon_layer_y                            = -10
 
 inv_weight                               = 2.80
 
-hud                                      = wpn_ump45_acog_hud
-
+hud                                      = wpn_ump45_specter_hud
+scope_texture = wpn_crosshair_specter
 scope_status                             = 0
 scope_zoom_factor                        = 20
 
 zoom_rotate_time                         = 0.25
 
 
-[wpn_ump45_acog_hud]:wpn_ump45_hud,hud_low_interia
-item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_acog_hud.ogf
+[wpn_ump45_specter_hud]:wpn_ump45_hud,hud_low_interia
+item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_specter_hud.ogf
 
         aim_hud_offset_pos               = 0.001862, -0.035914, -0.07
         aim_hud_offset_pos_16x9          = 0.001862, -0.035914, -0.07
@@ -328,34 +328,57 @@ misfire_end_prob                         = 0.08
 
 condition_queue_shot_dec                 = 0.00082
 condition_shot_dec                       = 0.00082
-
+laser_status 							 = true
 
 [wpn_ump45_sk1_hud]:wpn_ump45_hud
 item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_sk1_hud.ogf
 
+anm_hide                   = mp5_tac_hide
+anm_idle                            = mp5_tac_idle
+anm_idle_aim                   = mp5_tac_aim, mp5_aim
+anm_idle_aim_empty             = mp5_tac_aim, mp5_aim
+anm_idle_aim_moving                      = mp5_tac_aim_walk, mp5_aim, 0.75
+anm_idle_aim_moving_crouch               = mp5_tac_walk_slow_down
+anm_idle_moving                          = mp5_tac_walk
+anm_idle_moving_crouch                   = mp5_tac_walk_slow_down
+anm_idle_sprint                          = mp5_tac_sprint
+anm_switch_mode                          = mp5_tac_firemode_1_to_a, ump_firemode_1_to_a
+anm_show                                 = mp5_tac_draw
+anm_reload                           = ump_tac_reload, ump_reload
+anm_reload_empty                     = ump_tac_reload_empty, ump_reload_empty
+anm_reload_misfire                   = mp5_tac_revival, ump_revival
+anm_shots                      = ump_tac_shoot
+anm_shots_sil                  = mp5_tac_shoot
+anm_shots_misfire	       = ump_tac_shoot, ump_idle_jammed
+anm_shots_misfire_sil	       = mp5_tac_shoot, idle_jammed
+anm_shots_aim                  = mp5_tac_aim_shoot
+anm_shots_aim_misfire	       = mp5_tac_aim_shoot, mp5_aim_jammed
 
-[wpn_ump45_ac10632_sk1_hud]:wpn_ump45_hud
-item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_ac10632_sk1_hud.ogf
+anm_idle_aim_start             = mp5_tac_aim_start, mp5_aim_start
+anm_idle_aim_start_empty       = mp5_tac_aim_start, mp5_aim_start
 
-aim_hud_offset_pos                       = -0.08236, 0.0592, -0.25
-aim_hud_offset_pos_16x9                  = -0.08236, 0.0592, -0.25
-aim_hud_offset_rot                       = 0.0228, 0.0346, 0
-aim_hud_offset_rot_16x9                  = 0.0228, 0.0346, 0
-
-;------------------------------------------------------------------------------------------------
-[wpn_ump45_custom_ac10632]:wpn_ump45_custom
-1icon_layer                              = ac10632
-1icon_layer_x                            = 83
-1icon_layer_y                            = -13
-
-inv_weight                               = 2.60
-
-hud                                      = wpn_ump45_ac10632_sk1_hud
-visual                                   = dynamics\weapons\wpn_ump45\wpn_ump45_ac10632_sk1.ogf
+anm_idle_aim_end               = mp5_tac_aim_end, mp5_aim_end
+anm_idle_aim_end_empty         = mp5_tac_aim_end, mp5_aim_end
 
 
-[wpn_ump45_acog_sk1_hud]:wpn_ump45_acog_hud
-item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_acog_sk1_hud.ogf
+anm_sprint_start             = mp5_tac_sprint_start
+anm_sprint_start_empty       = mp5_tac_sprint_start
+
+
+anm_sprint_end               = mp5_tac_sprint_end
+anm_sprint_end_empty         = mp5_tac_sprint_end
+
+
+ts_pattern_sprint_start          = .+, anm_idle_sprint, anm_sprint_start, 1
+ts_pattern_sprint_end            = anm_idle_sprint, ^anm_idle.*, anm_sprint_end
+ts_strict_sprint_end_move        = anm_sprint_start, anm_idle_moving, anm_sprint_end
+
+
+
+
+
+[wpn_ump45_specter_sk1_hud]:wpn_ump45_specter_hud
+item_visual                              = anomaly_weapons\wpn_ump45\wpn_ump45_specter_sk1_hud.ogf
 
 aim_hud_offset_pos                       = -0.08233, 0.0399, -0.25
 aim_hud_offset_pos_16x9                  = -0.08233, 0.0399, -0.25
@@ -363,14 +386,14 @@ aim_hud_offset_rot                       = 0.0228, 0.0346, 0.0005
 aim_hud_offset_rot_16x9                  = 0.0228, 0.0346, 0.0005
 
 ;------------------------------------------------------------------------------------------------
-[wpn_ump45_custom_acog]:wpn_ump45_custom
-1icon_layer                              = acog
+[wpn_ump45_custom_specter]:wpn_ump45_custom
+1icon_layer                              = specter
 1icon_layer_x                            = 80
 1icon_layer_y                            = -10
-
+scope_texture = wpn_crosshair_specter
 inv_weight                               = 2.80
 
-hud                                      = wpn_ump45_acog_sk1_hud
+hud                                      = wpn_ump45_specter_sk1_hud
 
 scope_status                             = 0
 scope_zoom_factor                        = 20

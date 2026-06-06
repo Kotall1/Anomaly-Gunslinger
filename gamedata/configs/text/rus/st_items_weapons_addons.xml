@@ -35,14 +35,11 @@
 		%c[d_purple] • %c[ui_gray_2] Состояние: %c[ui_gray_1]отличное</text>
 	</string>
 	
-	<string id="st_addon_scope_acog">
-		<text>Прицел ACOG 3.5x</text>
+	<string id="st_addon_scope_specter">
+		<text>Прицел штурмовой Elcan Specter DR 1x/4x</text>
 	</string>
-	<string id="st_addon_scope_acog_descr">
-		<text>\n \n%c[ui_gray_2]СОВМЕСТИМОСТЬ:\n \n%c[d_cyan] • %c[ui_gray_2]все винтовки НАТО\n \n%c[ui_gray_1]Съёмный оптический прицел, предназначенный для винтовок стран НАТО. ACOG расшифровывается как Advanced Combat Optical Gunsight и относится к семейству оптических прицелов, выпускаемых компанией Trijicon. Прицелы этого типа устанавливаются на планку «Пикатинни» и имеют тритиевую подсветку. Данный экземпляр с прицельной сеткой USMC и кратностью 3.5х.\n \n
-		%c[d_purple] • %c[ui_gray_2] Увеличение: %c[ui_gray_1]3.5x\n
-		%c[d_purple] • %c[ui_gray_2] Состояние: %c[ui_gray_1]отличное\n
-		%c[d_purple] • %c[ui_gray_2] Тип прицельной сетки: %c[ui_gray_1]USMC</text>
+	<string id="st_addon_scope_specter_descr">
+		<text>Оптический прицел от канадской компании ELCAN Optical Technologies c переменной кратностью (1 и 4 диоптрии). Устанавливается на крепление типа «планка пикатини». Прицельная сетка снабжена подсветкой регулируемой яркости. Также обладает резервными прицельными приспособлениями на случай выхода из строя оптической части.</text>
 	</string>
 	
 	<string id="st_addon_scope_eotech">

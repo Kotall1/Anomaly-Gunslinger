@@ -151,20 +151,27 @@ control_inertion_factor = 1.0f
         kill_msg_width              = 31
         kill_msg_height             = 24
 		weapon_lower_speed			= 0.2
-		
+		scripted_snd_sprint_start             = weapons\detector_prepare 
+scripted_snd_sprint_end             = weapons\pistol_sprint_end
 
 [wpn_sig220_hud]:hud_base
         item_visual                 = anomaly_weapons\wpn_sig220\wpn_sig220_hud.ogf
         attach_place_idx            = 0
         zoom_hide_crosshair         = true
         
-        item_position               = 0.0,0.0,0.0
-        item_orientation            = 0.0,0.0,0.0
-        
-        hands_position              = -0.015,-0.12,-0.04
-        hands_position_16x9         = -0.015,-0.12,-0.04
-        hands_orientation           = 0.0,0.0,-4.0
-        hands_orientation_16x9      = 0.0,0.0,-4.0
+hands_position				= 0.0,-0.13,0.03
+hands_orientation			= 0.0,0.0,0.0
+hands_position_16x9			= 0.0,-0.13,0.03
+hands_orientation_16x9			= 0.0,0.0,0.0
+
+aim_hud_offset_pos = 0.000000,0.018000,0.0
+aim_hud_offset_rot = -0.004000,0.000000,0.0
+aim_hud_offset_pos_16x9 = 0.000000,0.018000,0.0
+aim_hud_offset_rot_16x9 = -0.004000,0.000000,0.0
+
+
+item_position			= 0.0,0.0,0.0
+item_orientation		= 0.0,0.0,0.0
         
 		safemode_anm				= 
 		safemode_anm2				= 
@@ -174,11 +181,6 @@ control_inertion_factor = 1.0f
 
 		lowered_hud_offset_pos_16x9		= 0,0.1,0
 		lowered_hud_offset_rot_16x9		= 0.3,-0.1,0.1
-		
-        aim_hud_offset_pos          = -0.0849, 0.057, 0.0
-        aim_hud_offset_pos_16x9     = -0.0849, 0.057, 0.0
-        aim_hud_offset_rot          = 0.0, 0.0, -0.06
-        aim_hud_offset_rot_16x9     = 0.0, 0.0, -0.06
         
         gl_hud_offset_pos           = 0, 0, 0
         gl_hud_offset_rot           = 0, 0, 0

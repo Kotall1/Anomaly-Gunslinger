@@ -169,6 +169,9 @@ snd_detach_gl           = weapons\m1911\colt1911_reload
 snd_unload_mag          = $silent
 snd_jam                 = $silent
 
+scripted_snd_sprint_start             = weapons\detector_prepare 
+scripted_snd_sprint_end             = weapons\pistol_sprint_end
+
 [wpn_tt33_hud]:hud_base
         item_visual                 = anomaly_weapons\wpn_tt33\wpn_tt33_hud.ogf
         attach_place_idx            = 0
@@ -181,6 +184,11 @@ hands_position				= 0.0,-0.13,0.03
 hands_orientation			= 0.0,0.0,0.0
 hands_position_16x9			= 0.0,-0.13,0.03
 hands_orientation_16x9			= 0.0,0.0,0.0
+
+aim_hud_offset_pos = 0.000000,0.018000,0.0
+aim_hud_offset_rot = -0.02400,0.000000,0.0
+aim_hud_offset_pos_16x9 = 0.000000,0.018000,0.0
+aim_hud_offset_rot_16x9 = -0.02400,0.000000,0.0
         
 		safemode_anm				= 
 		safemode_anm2				= 
@@ -190,11 +198,7 @@ hands_orientation_16x9			= 0.0,0.0,0.0
 
 		lowered_hud_offset_pos_16x9		= 0,0.1,0
 		lowered_hud_offset_rot_16x9		= 0.3,-0.1,0.1
-		
-aim_hud_offset_pos = 0.000000,0.018000,0.0
-aim_hud_offset_rot = -0.02400,0.000000,0.0
-aim_hud_offset_pos_16x9 = 0.000000,0.018000,0.0
-aim_hud_offset_rot_16x9 = -0.02400,0.000000,0.0
+
         
         gl_hud_offset_pos           = 0, 0, 0
         gl_hud_offset_rot           = 0, 0, 0

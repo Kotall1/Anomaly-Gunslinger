@@ -74,7 +74,7 @@ ammo_elapsed                             = 30
 ammo_mag_size                            = 30
 startup_ammo                             = 90
 
-scopes                                   = acog, eot, ac11090
+scopes                                   = specter, eot, ac11090
 scope_status                             = 0
 scope_zoom_factor                        = 0
 
@@ -264,26 +264,26 @@ item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_eot_h
         aim_hud_offset_rot_16x9          = 0.001491, 0.002342, -0.06
 
 		
-[wpn_mp5_acog]:wpn_mp5
-1icon_layer                              = acog
+[wpn_mp5_specter]:wpn_mp5
+1icon_layer                              = specter
 1icon_layer_x                            = 78
 1icon_layer_y                            = 1
 
 inv_weight                               = 3.23
 
-hud                                      = wpn_mp5_acog_hud
-visual                                   = dynamics\weapons\wpn_mp5\wpn_mp5_acog.ogf
+hud                                      = wpn_mp5_specter_hud
+;visual                                   = dynamics\weapons\wpn_mp5\wpn_mp5_acog.ogf
 
 scope_status                                       = 1
-scope_texture                                      = wpn_crosshair_acog
+scope_texture = wpn_crosshair_specter
 scope_zoom_factor                                  = 25
 zoom_rotate_time                                   = 0.25
 scope_dynamic_zoom                                 = on
 
 
 
-[wpn_mp5_acog_hud]:wpn_mp5_hud
-item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_acog_hud.ogf
+[wpn_mp5_specter_hud]:wpn_mp5_hud
+item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_specter_hud.ogf
 
         aim_hud_offset_pos               = -0.003275, -0.028636, -0.18
         aim_hud_offset_pos_16x9          = -0.003275, -0.028636, -0.18
@@ -338,7 +338,7 @@ misfire_end_prob                         = 0.08
 
 condition_queue_shot_dec                 = 0.00073
 condition_shot_dec                       = 0.00073
-
+laser_status 							 = true
 
 
 [wpn_mp5_sk1_hud]:wpn_mp5_hud
@@ -438,10 +438,8 @@ visual                                   = dynamics\weapons\wpn_mp5\wpn_mp5_sk1.
 [wpn_mp5_eot_sk1_hud]:wpn_mp5_sk1_hud
 item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_eot_sk1_hud.ogf
 
-        aim_hud_offset_pos               = -0.102901, 0.013243, -0.18
-        aim_hud_offset_pos_16x9          = -0.102901, 0.013243, -0.18
-        aim_hud_offset_rot               = 0.001491, 0.002342, -0.06
-        aim_hud_offset_rot_16x9          = 0.001491, 0.002342, -0.06
+        aim_hud_offset_pos               = -0.000212, -0.026236, -0.15
+        aim_hud_offset_pos_16x9          = -0.000212, -0.026236, -0.15
 		
 		
 		
@@ -460,28 +458,28 @@ visual                                   = dynamics\weapons\wpn_mp5\wpn_mp5_sk1.
 [wpn_mp5_ac11090_sk1_hud]:wpn_mp5_sk1_hud
 item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_ac11090_sk1_hud.ogf
 
-        aim_hud_offset_pos               = 0.039966, -0.047336, -0.06
-        aim_hud_offset_pos_16x9          = 0.039966, -0.047336, -0.06
-        aim_hud_offset_rot               = -0.001065, -5.2e-05, -0.06
-        aim_hud_offset_rot_16x9          = -0.001065, -5.2e-05, -0.06
+        aim_hud_offset_pos               = -0.00032, -0.029431, -0.14
+        aim_hud_offset_pos_16x9          = -0.00032, -0.029431, -0.14
+        aim_hud_offset_rot               = 0.000426, 0.001648, 0
+        aim_hud_offset_rot_16x9          = 0.000426, 0.001648, 0
 		
 		
 		
-[wpn_mp5_custom_acog]:wpn_mp5_custom
-1icon_layer                              = acog
+[wpn_mp5_custom_specter]:wpn_mp5_custom
+1icon_layer                              = specter
 1icon_layer_x                            = 78
 1icon_layer_y                            = 1
-
+scope_texture = wpn_crosshair_specter
 inv_weight                               = 3.21
 
-hud                                      = wpn_mp5_acog_sk1_hud
+hud                                      = wpn_mp5_specter_sk1_hud
 visual                                   = dynamics\weapons\wpn_mp5\wpn_mp5_sk1.ogf
 
 
-[wpn_mp5_acog_sk1_hud]:wpn_mp5_sk1_hud
-item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_acog_sk1_hud.ogf
+[wpn_mp5_specter_sk1_hud]:wpn_mp5_sk1_hud
+item_visual                              = anomaly_weapons\wpn_mp5\wpn_mp5_specter_sk1_hud.ogf
 
-        aim_hud_offset_pos               = 0.039966, -0.047336, -0.06
-        aim_hud_offset_pos_16x9          = 0.039966, -0.047336, -0.06
-        aim_hud_offset_rot               = -0.001065, -5.2e-05, -0.06
-        aim_hud_offset_rot_16x9          = -0.001065, -5.2e-05, -0.06		
+        aim_hud_offset_pos               = 0.00016, -0.030634, -0.1
+        aim_hud_offset_pos_16x9          = 0.00016, -0.030634, -0.1
+        ;aim_hud_offset_rot               = -0.001065, -5.2e-05, -0.06
+        ;aim_hud_offset_rot_16x9          = -0.001065, -5.2e-05, -0.06		

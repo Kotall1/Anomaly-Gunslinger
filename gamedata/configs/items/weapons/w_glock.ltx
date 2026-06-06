@@ -175,18 +175,13 @@ snd_sprint_end          = weapons\pistol_sprint_end
 snd_reload_jammed_detector               = weapons\glock17\glock17_revival_det
 snd_reload_jammed_last_detector          = weapons\glock17\glock17_revival_det
 
+scripted_snd_sprint_start             = weapons\detector_prepare 
+scripted_snd_sprint_end             = weapons\pistol_sprint_end
+
 [wpn_glock_hud]:hud_base
         item_visual                 = anomaly_weapons\wpn_glock\wpn_glock_hud.ogf
         attach_place_idx            = 0
         zoom_hide_crosshair         = true
-        
-item_position			= 0.0,0.0,0.0
-item_orientation		= 0.0,0.0,0.0
-        
-hands_position				= 0.0,-0.13,0.03
-hands_orientation			= 0.0,0.0,0.0
-hands_position_16x9			= 0.0,-0.13,0.03
-hands_orientation_16x9			= 0.0,0.0,0.0
         
 		safemode_anm				= 
 		safemode_anm2				= 
@@ -197,10 +192,18 @@ hands_orientation_16x9			= 0.0,0.0,0.0
 		lowered_hud_offset_pos_16x9		= 0,0.1,0
 		lowered_hud_offset_rot_16x9		= 0.3,-0.1,0.1
 		
+hands_position				= 0.0,-0.13,0.03
+hands_orientation			= 0.0,0.0,0.0
+hands_position_16x9			= 0.0,-0.13,0.03
+hands_orientation_16x9			= 0.0,0.0,0.0
+
 aim_hud_offset_pos = 0.0,0.031,0.0
 aim_hud_offset_rot = -0.005,0.0,0.0
 aim_hud_offset_pos_16x9 = 0.0,0.031,0.0
 aim_hud_offset_rot_16x9 = -0.005,0.0,0.0
+
+item_position			= 0.0,0.0,0.0
+item_orientation		= 0.0,0.0,0.0
         
         gl_hud_offset_pos           = 0, 0, 0
         gl_hud_offset_rot           = 0, 0, 0
@@ -288,13 +291,5 @@ aim_hud_offset_rot_16x9 = -0.005,0.0,0.0
 		anm_switch_mode_empty                    = glock17_firemode_1_to_a_empty
 		anm_switch_mode_jammed                   = glock17_firemode_1_to_a, glock17_firemode_1_to_a_jammed
 		
-		aim_hud_offset_pos               = 0, 0.031, 0
-        aim_hud_offset_pos_16x9          = 0, 0.031, 0
-        aim_hud_offset_rot               = 0.004301, 0.017287, 0
-        aim_hud_offset_rot_16x9          = 0.004301, 0.017287, 0
-		
-        hands_orientation                = 0.9, 0.499431, 0
-        hands_orientation_16x9           = 0.9, 0.499431, 0
-        hands_position                   = 0, -0.13, 0.03
-        hands_position_16x9              = 0, -0.13, 0.03
+
  

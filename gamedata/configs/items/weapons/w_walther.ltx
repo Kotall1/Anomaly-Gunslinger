@@ -150,7 +150,9 @@ control_inertion_factor = 1.0f
         kill_msg_width              = 27
         kill_msg_height             = 23
 		weapon_lower_speed			= 0.2
-		laser_status = true
+
+scripted_snd_sprint_start             = weapons\detector_prepare 
+scripted_snd_sprint_end             = weapons\pistol_sprint_end
 
 [wpn_walther_hud]:hud_base
         item_visual                 = anomaly_weapons\wpn_walter99\wpn_walter99_hud.ogf
@@ -160,10 +162,15 @@ control_inertion_factor = 1.0f
         item_position               = 0.0,0.0,0.0
         item_orientation            = 0.0,0.0,0.0
         
-        hands_position              = -0.028,-0.12,-0.04
-        hands_position_16x9         = -0.028,-0.12,-0.04
-        hands_orientation           = 0.0,0.0,-4.0
-        hands_orientation_16x9      = 0.0,0.0,-4.0
+hands_position				= 0.0,-0.13,0.03
+hands_orientation			= 0.0,0.0,0.0
+hands_position_16x9			= 0.0,-0.13,0.03
+hands_orientation_16x9			= 0.0,0.0,0.0
+
+aim_hud_offset_pos = 0.000000,0.019000,0.0
+aim_hud_offset_rot = -0.007000,0.000000,0.0
+aim_hud_offset_pos_16x9 = 0.000000,0.019000,0.0
+aim_hud_offset_rot_16x9 = -0.007000,0.000000,0.0
         
 		safemode_anm				= 
 		safemode_anm2				= 
@@ -173,12 +180,7 @@ control_inertion_factor = 1.0f
 
 		lowered_hud_offset_pos_16x9		= 0,0.1,0
 		lowered_hud_offset_rot_16x9		= 0.3,-0.1,0.1
-		
-        aim_hud_offset_pos               = 0.036487, 0.012354, 0
-        aim_hud_offset_pos_16x9          = 0.036487, 0.012354, 0
-        aim_hud_offset_rot               = -0.002556, -0.000106, -0.06
-        aim_hud_offset_rot_16x9          = -0.002556, -0.000106, -0.06
-        
+
         gl_hud_offset_pos           = 0, 0, 0
         gl_hud_offset_rot           = 0, 0, 0
         
@@ -242,7 +244,7 @@ ts_strict_sprint_end_move        = anm_sprint_start, anm_idle_moving, anm_sprint
 		inv_grid_y         = 79
         inv_name                    = st_wpn_walther_custom
         inv_name_short              = st_wpn_walther_custom
-        
+        		laser_status = true
         cost                        = 5680
         
         hud                         = wpn_walther_sk1_hud
@@ -255,15 +257,14 @@ ts_strict_sprint_end_move        = anm_sprint_start, anm_idle_moving, anm_sprint
 [wpn_walther_sk1_hud]:wpn_walther_hud
         item_visual                 = anomaly_weapons\wpn_walter99\wpn_walter99_sk1_hud
         
-        item_position               = 0.0,0.0,0.0
-        item_orientation            = 0.0,0.0,0.0
+
         
-        hands_orientation                = 0.8, 0.5, -4
-        hands_orientation_16x9           = 0.8, 0.5, -4
-        hands_position                   = -0.016183, -0.12568, -0.04
-        hands_position_16x9              = -0.016183, -0.12568, -0.04
-		
-        aim_hud_offset_pos               = 0.025201, 0.018034, 0
-        aim_hud_offset_pos_16x9          = 0.025201, 0.018034, 0
-        aim_hud_offset_rot               = 0.005965, 0.01468, -0.06
-        aim_hud_offset_rot_16x9          = 0.005965, 0.01468, -0.06
+hands_position				= 0.0,-0.13,0.03
+hands_orientation			= 0.0,0.0,0.0
+hands_position_16x9			= 0.0,-0.13,0.03
+hands_orientation_16x9			= 0.0,0.0,0.0
+
+aim_hud_offset_pos = 0.000000,0.019000,0.0
+aim_hud_offset_rot = -0.007000,0.000000,0.0
+aim_hud_offset_pos_16x9 = 0.000000,0.019000,0.0
+aim_hud_offset_rot_16x9 = -0.007000,0.000000,0.0
