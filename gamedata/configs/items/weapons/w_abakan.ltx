@@ -74,7 +74,7 @@
         ammo_mag_size               = 30
         startup_ammo                = 90
         
-        scopes                      = 1p29, kobra, ps01
+        scopes                      = 1p29, kobra, ps01, pka
         scope_status                = 0
         scope_zoom_factor           = 0
         
@@ -312,8 +312,8 @@ scope_zoom_factor                        = 15
 
 
 [wpn_abakan_pso1_hud]:wpn_abakan_hud
-        aim_hud_offset_pos               = -0.08524, 0.019818, -0.1
-        aim_hud_offset_pos_16x9          = -0.08524, 0.019818, -0.1
+        aim_hud_offset_pos               = 0.025476, -0.01068, -0.05
+        aim_hud_offset_pos_16x9          = 0.025476, -0.01068, -0.05
         aim_hud_offset_rot               = 0.001128, 0.000371, -0.06
         aim_hud_offset_rot_16x9          = 0.001128, 0.000371, -0.06
 
@@ -334,7 +334,31 @@ visual                                   = dynamics\weapons\wpn_abakan\wpn_abaka
 
 item_visual                              = anomaly_weapons\wpn_abakan\wpn_abakan_kobra_hud.ogf
 
-        aim_hud_offset_pos               = -0.10044, 0.011573, -0.1
-        aim_hud_offset_pos_16x9          = -0.10044, 0.011573, -0.1
+        aim_hud_offset_pos               = 0.010197, -0.019539, -0.05
+        aim_hud_offset_pos_16x9          = 0.010197, -0.019539, -0.05
         aim_hud_offset_rot               = 0.001128, 0.000371, -0.06
         aim_hud_offset_rot_16x9          = 0.001128, 0.000371, -0.06
+		
+		
+
+
+
+
+[wpn_abakan_pka]:wpn_abakan
+1icon_layer                              = pka
+1icon_layer_x                            = 30
+1icon_layer_y                            = 3
+
+inv_weight                               = 3.99
+hud                                      = wpn_abakan_pka_hud
+visual                                   = dynamics\weapons\wpn_abakan\wpn_abakan.ogf
+
+
+[wpn_abakan_pka_hud]:wpn_abakan_hud
+
+item_visual                              = anomaly_weapons\wpn_abakan\wpn_abakan_pka_hud.ogf
+
+        aim_hud_offset_pos               = 0.018845, -0.024797, -0.05
+        aim_hud_offset_pos_16x9          = 0.018845, -0.024797, -0.05
+        aim_hud_offset_rot               = 0.001128, 0.000371, -0.06
+        aim_hud_offset_rot_16x9          = 0.001128, 0.000371, -0.06		
