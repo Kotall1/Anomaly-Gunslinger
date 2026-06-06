@@ -1,0 +1,354 @@
+;------------------------------------------------------------------------------------------------
+[wpn_saiga12s]:identity_immunities,weapon_probability,default_weapon_params,wpn_saiga_sounds
+GroupControlSection                      = spawn_group
+discovery_dependency                     =
+$npc                                     = on
+$prefetch                                = 8
+$spawn                                   = "weapons\ak-74"
+scheduled                                = off
+cform                                    = skeleton
+parent_section                           = wpn_saiga12s
+
+class                                    = WP_ASHTG
+slot                                     = 2
+animation_slot                           = 2
+ef_main_weapon_type                      = 2
+ef_weapon_type                           = 6
+hand_dependence                          = 1
+single_handed                            = 0
+
+default_to_ruck                          = false
+sprint_allowed                           = true
+
+inv_grid_height                          = 2
+inv_grid_width                           = 5
+inv_grid_x                               = 30
+inv_grid_y                               = 28
+inv_name                                 = st_wpn_saiga12s
+inv_name_short                           = st_wpn_saiga12s
+description                              = st_wpn_saiga12s_descr
+
+kind                                     = w_shotgun
+inv_weight                               = 3.81
+cost                                     = 31680
+repair_type                              = shotgun
+weapon_class                             = shotgun
+
+hud                                      = wpn_saiga12s_hud
+visual                                   = dynamics\weapons\wpn_saiga\wpn_saiga12s.ogf
+position           	= -0.026,-0.215,0        ; position (offset) and orientation of the weapon in the hands of character
+orientation         = 0,0,0                  ; (3rd person view)
+
+fire_point          =  0.0, 0.262, 0.647		; position (3rd person view) for particles of fire
+fire_point2         =  0.0, 0.262, 0.647		; position (3rd person view) for particles of fire (when shooting with secondary fire)
+strap_position         	= -0.18,-0.45,0.2			; position (offset) and orientation of the weapon when it is strapped
+strap_orientation      	= -10,-5,10					; (3rd person view in degrees)
+strap_bone0             = bip01_spine2
+strap_bone1             = bip01_spine1
+ph_mass                                  = 4
+
+flame_particles                          = weapons\generic_weapon05
+smoke_particles                          = weapons\generic_shoot_00
+grenade_flame_particles                  = weapons\generic_weapon01
+
+shell_point		= 0.00, 0.262, 0.189		; position (3rd person view) for shell to throw out
+shell_particles					         = weapons\12ga
+
+light_disabled                           = false
+light_color                              = 0.6, 0.5, 0.3
+light_range                              = 5
+light_time                               = 0.2
+light_var_color                          = 0.05
+light_var_range                          = 0.5
+
+upgrades                                 = up_gr_firstab_saiga12, up_gr_seconab_saiga12, up_gr_thirdab_saiga12, up_gr_fourtab_saiga12, up_gr_fifthab_saiga12
+installed_upgrades                       =
+upgrade_scheme                           = upgrade_scheme_ak74u
+upgr_icon_x                              = 1450
+upgr_icon_y                              = 350
+upgr_icon_width                          = 300
+upgr_icon_height                         = 100
+
+fire_modes                               = 1
+ammo_class                               = ammo_12x70_buck, ammo_12x70_buck_bad, ammo_12x70_buck_verybad, ammo_12x76_zhekan, ammo_12x76_zhekan_bad, ammo_12x76_zhekan_verybad, ammo_12x76_dart, ammo_12x76_dart_bad, ammo_12x76_dart_verybad, ammo_12x70_buck_self
+ammo_elapsed                             = 10
+ammo_limit                               = 210
+ammo_mag_size                            = 10
+startup_ammo                             = 90
+
+scopes                                   = 1p29, kobra, pka
+scope_status                             = 0
+scope_zoom_factor                        = 0
+
+silencer_name                            = wpn_sil_hexagon
+silencer_status                          = 2
+silencer_x                               = 228
+silencer_y                               = 11
+silencer_light_color                     = 0.6, 0.5, 0.3
+silencer_light_range                     = 0.01
+silencer_light_time                      = 0.2
+silencer_light_var_color                 = 0.05
+silencer_light_var_range                 = 0.5
+silencer_smoke_particles                 = weapons\generic_shoot_00
+
+grenade_class                            = ammo_vog-25, ammo_vog-25_bad, ammo_vog-25_verybad, ammo_vog-25, ammo_vog-25_bad, ammo_vog-25_verybadp
+grenade_launcher_name                    = wpn_addon_grenade_launcher
+grenade_launcher_status                  = 0
+grenade_launcher_x                       = 116
+grenade_launcher_y                       = 15
+launch_speed                             = 0
+
+hit_impulse                              = 40
+hit_power                                = 0.78, 0.78, 0.78, 0.78
+hit_type                                 = fire_wound
+fire_distance                            = 300
+bullet_speed                             = 325
+rpm                                      = 220
+rpm_empty_click                          = 200
+
+use_aim_bullet = false
+time_to_aim                              = 0.0 ;  3.0
+zoom_dof                                 = 0.5, 1.0, 180
+zoom_enabled                             = true
+zoom_rotate_time                         = 0.25
+reload_dof                               = 0.0, 0.5, 5, 1.7
+control_inertion_factor = 1.0f
+crosshair_inertion                       = 6.5
+fire_dispersion_base                     = 0.46
+fire_dispersion_condition_factor         = 0.001
+
+misfire_probability                      = 0.005
+misfire_start_condition                  = 0.7 ;  0.88
+misfire_start_prob                       = 0.007
+misfire_end_condition                    = 0.12
+misfire_end_prob                         = 0.11
+
+condition_queue_shot_dec                 = 0.0020
+condition_shot_dec                       = 0.0020
+
+fire_dispersion_base       = 0.25 ;0.19      ;угол (в градусах) базовой дисперсии оружия (оружия зажатого в тисках)
+control_inertion_factor    = 1.1
+crosshair_inertion		   = 6.5
+
+;params of weapon recoil
+cam_return              = 0
+cam_relax_speed         = 12			;скорость возврата в исходное положение
+cam_relax_speed_ai     	= 120.75
+cam_dispersion          = 3.9		;увеличения угла (в градусах) с первым выстрелом
+cam_dispersion_inc      = 1.75	;увеличениe cam_dispersion с каждым выстрелом
+cam_dispersion_frac     = 0.8	    ;ствол будет подыматься на cam_dispersion*cam_dispersion_frac +- cam_dispersion*(1-cam_dispersion_frac)
+cam_max_angle			= 10.0      ;максимальный угол отдачи
+cam_max_angle_horz      = 10.0      ;(degree) maximum shot horizontal degree
+cam_step_angle_horz     = 1.5		;(degree) size of step camera moved in horizontal position while shooting
+
+zoom_cam_relax_speed         = 10	    ; scope & ironsight
+zoom_cam_relax_speed_ai      = 360
+zoom_cam_dispersion          = 3.3
+zoom_cam_dispersion_inc      = 1.5
+zoom_cam_dispersion_frac     = 1.0
+zoom_cam_max_angle           = 50.0
+zoom_cam_max_angle_horz      = 5.0
+zoom_cam_step_angle_horz     = 1.0
+fire_dispersion_condition_factor    = 10         ;увеличение дисперсии в процентах при максимальном износе
+
+PDM_disp_base 				= 2.9
+PDM_disp_vel_factor 		= 2.3
+PDM_disp_accel_factor 		= 2.3
+PDM_disp_crouch	 			= 1.0
+PDM_disp_crouch_no_acc 		= 1.0
+
+cam_relax_speed_ai                       = 360
+zoom_cam_relax_speed_ai                  = 360
+holder_fov_modifier                      = 0.7
+holder_range_modifier                    = 1.0
+min_radius                               = 0
+max_radius                               = 500
+hit_probability_gd_novice                = 1.00
+hit_probability_gd_stalker               = 1.00
+hit_probability_gd_veteran               = 1.00
+hit_probability_gd_master                = 1.00
+
+kill_msg_x                               = 0
+kill_msg_y                               = 28
+kill_msg_width                           = 84
+kill_msg_height                          = 28
+
+snd_draw		= weapons\p90\p90_draw
+snd_holster		= weapons\p90\p90_hide
+snd_shoot		= weapons\saiga12\saiga12_shoot, -1.1
+snd_empty		= weapons\glock17\glock17_dry
+snd_reload              = weapons\aks74u\aks74u_reload
+snd_reload_empty        = weapons\aks74u\aks74u_reload_full
+snd_changecartridgetype = weapons\aks74u\aks74u_reload
+snd_shoot_grenade       = weapons\gen_grenshoot
+snd_reload_grenade      = weapons\gen_grenload, 1.0, 0.8
+snd_switch              = weapons\groza_switch, 1.0, 0.5
+snd_close		= $silent
+snd_reload_jammed       = weapons\ak74\ak74_revival
+snd_reload_jammed_last  = weapons\ak74\ak74_revival
+snd_jammed_click        = weapons\glock17\glock17_dry
+snd_unload_mag          = $silent
+snd_jam                 = $silent
+snd_breechblock         = $silent
+snd_fakeshoot_first	= weapons\glock17\glock17_shoot_s
+snd_changefiremode	= weapons\vss\vss_firemode
+;snd_changefiremode_empty
+;snd_changefiremode_jammed
+snd_aim_start           = weapons\vss\vss_aim_start
+snd_aim_end             = weapons\vss\vss_aim_end
+
+[wpn_saiga12s_hud]:hud_base
+item_visual                              = anomaly_weapons\wpn_saiga\wpn_saiga12s_hud.ogf
+attach_place_idx                         = 0
+zoom_hide_crosshair                      = true   
+
+
+
+        aim_hud_offset_pos               = 0.000969, 0.030995, 0
+        aim_hud_offset_pos_16x9          = 0.000969, 0.030995, 0
+        aim_hud_offset_rot               = -0.001374, 0.002233, 0
+        aim_hud_offset_rot_16x9          = -0.001374, 0.002233, 0
+		
+hands_position                   = 0.017606, -0.008558, -0.035
+hands_position_16x9              = 0.017606, -0.008558, -0.035
+		
+hands_orientation_16x9			= 0.0,0.0,0.0
+hands_orientation			= 0.0,0.0,0.0
+
+item_position				= 0.0,0.0,0.0
+item_orientation			= 0.0,0.0,0.0
+
+
+gl_hud_offset_pos               = 0,0,0;-0.053000,-0.059000,0.000000
+gl_hud_offset_rot               = 0,0,0;-0.145000,0.000000,0.000000
+
+gl_hud_offset_pos_16x9            = 0,0,0;-0.130000,0.003500,0.000500
+gl_hud_offset_rot_16x9            = 0,0,0;0.052500,0.045000,-0.010000
+
+lean_hud_offset_pos        = 0,0,0
+lean_hud_offset_rot        = 0,0,0
+
+anm_hide                   = aks74u_hide
+anm_idle                            = aks74u_idle
+anm_idle_aim                   = aks74u_aim, idle_aim
+anm_idle_aim_moving                      = aks74u_aim_walk, idle_aim
+anm_idle_aim_moving_crouch               = aks74u_aim_walk, idle_aim, 0.7
+anm_idle_moving                          = aks74u_walk
+anm_idle_sprint                   = aks74u_sprint
+anm_reload                               = aks74u_reload
+anm_reload_empty                     = aks74u_reload_full
+anm_shots                                = saiga12_shoot
+anm_shots_sil            				= saiga12_shoot
+anm_show                   				= aks74u_draw
+anm_show_misfire          				 = aks74u_draw, idle_jammed
+anm_shots_misfire	 = saiga12_shoot, idle_jammed
+anm_shots_aim            = saiga12_aim_shoot
+anm_shots_aim_misfire	 = saiga12_aim_shoot, idle_aim_jammed
+
+--NEW aim start anims---
+anm_idle_aim_start             = aks74u_aim_start
+anm_idle_aim_start_empty       = aks74u_aim_start
+
+anm_idle_aim_end               = aks74u_aim_end
+anm_idle_aim_end_empty         = aks74u_aim_end
+
+---BNEW SPRINT-------
+anm_sprint_start             = aks74u_sprint_start
+anm_sprint_start_empty       = aks74u_sprint_start
+anm_sprint_start_misfire      = aks74u_sprint_start, idle_jammed
+
+
+anm_sprint_end             = aks74u_sprint_end
+anm_sprint_end_empty       = aks74u_sprint_end
+anm_sprint_end_misfire      = aks74u_sprint_end, idle_jammed
+
+
+ts_pattern_sprint_start          = .+, anm_idle_sprint, anm_sprint_start, 1
+ts_pattern_sprint_end            = anm_idle_sprint, ^anm_idle.*, anm_sprint_end
+ts_strict_sprint_end_move        = anm_sprint_start, anm_idle_moving, anm_sprint_end
+
+
+shell_point			= 0.0,-9.0,0.0
+shell_dir                       = 0.0,0.0,0.0
+shell_bone			= bolt
+
+fire_point			= 0.0,0.005,0.835
+fire_bone                       = wpn_body
+fire_point2                     = 0.0,0.005,1.108
+fire_bone2                      = wpn_body
+
+
+freelook_z_offset_mul					 = 0.5
+
+;------------------------------------------------------------------------------------------------
+[wpn_saiga12s_1p29]:wpn_saiga12s
+1icon_layer                              = 1p29
+1icon_layer_x                            = 71
+1icon_layer_y                            = -2
+
+inv_weight                               = 4.61
+
+hud                                      = wpn_saiga12s_1p29_hud
+visual                                   = dynamics\weapons\wpn_saiga\wpn_saiga12s.ogf
+
+scope_status                             = 1
+scope_dynamic_zoom                       = off
+scope_texture                            = wpn_crosshair_1p29
+scope_zoom_factor                        = 15
+
+zoom_rotate_time                         = 0.3
+
+
+[wpn_saiga12s_1p29_hud]:wpn_saiga12s_hud
+visual                                   = dynamics\weapons\wpn_saiga\wpn_saiga12s.ogf
+
+aim_hud_offset_pos                       = -0.073250, 0.045650, -0.21
+aim_hud_offset_pos_16x9                  = -0.073250, 0.045650, -0.21
+aim_hud_offset_rot                       = 0.027000, 0.009050, -0.0142
+aim_hud_offset_rot_16x9                  = 0.027000, 0.009050, -0.0142
+
+;------------------------------------------------------------------------------------------------
+[wpn_saiga12s_kobra]:wpn_saiga12s
+1icon_layer                              = kobra
+1icon_layer_x                            = 81
+1icon_layer_y                            = 0
+
+inv_weight                               = 4.21
+
+hud                                      = wpn_saiga12s_kobra_hud
+visual                                   = dynamics\weapons\wpn_saiga\wpn_saiga12s.ogf
+
+
+[wpn_saiga12s_kobra_hud]:wpn_saiga12s_1p29_hud
+item_visual                              = anomaly_weapons\wpn_saiga\wpn_saiga12s_kobra_hud.ogf
+
+        aim_hud_offset_pos               = 0.004219, -0.01644, 0
+        aim_hud_offset_pos_16x9          = 0.004219, -0.01644, 0
+        aim_hud_offset_rot               = -0.000522, 0.000903, 0
+        aim_hud_offset_rot_16x9          = -0.000522, 0.000903, 0
+
+
+;------------------------------------------------------------------------------------------------
+
+[wpn_saiga12s_pka]:wpn_saiga12s
+1icon_layer                              = pka
+1icon_layer_x                            = 81
+1icon_layer_y                            = 0
+
+inv_weight                               = 4.21
+
+hud                                      = wpn_saiga12s_pka_hud
+visual                                   = dynamics\weapons\wpn_saiga\wpn_saiga12s.ogf
+
+
+[wpn_saiga12s_pka_hud]:wpn_saiga12s_1p29_hud
+item_visual                              = anomaly_weapons\wpn_saiga\wpn_saiga12s_pka_hud.ogf
+
+        aim_hud_offset_pos               = 0.013182, -0.014523, 0.045
+        aim_hud_offset_pos_16x9          = 0.013182, -0.014523, 0.045
+        aim_hud_offset_rot               = -0.002226, 0.003209, 0
+        aim_hud_offset_rot_16x9          = -0.002226, 0.003209, 0
+
+
+;------------------------------------------------------------------------------------------------
+

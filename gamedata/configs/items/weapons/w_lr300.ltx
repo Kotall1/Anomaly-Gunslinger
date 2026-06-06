@@ -1,0 +1,424 @@
+;------------------------------------------------------------------------------------------------
+[wpn_lr300]:identity_immunities,weapon_probability,default_weapon_params,wpn_lr300_sounds
+GroupControlSection                      = spawn_group
+$npc                                     = on
+$prefetch                                = 8
+$spawn                                   = "weapons\lr-300"
+scheduled                                = off
+cform                                    = skeleton
+parent_section                           = wpn_lr300
+
+class                                    = WP_AK74
+slot                                     = 2
+animation_slot                           = 2
+ef_main_weapon_type                      = 2
+ef_weapon_type                           = 8
+hand_dependence                          = 1
+single_handed                            = 0
+
+default_to_ruck                          = false
+sprint_allowed                           = true
+
+inv_grid_height                          = 2
+inv_grid_width                           = 5
+inv_grid_x                               = 30
+inv_grid_y                               = 42
+inv_name                                 = st_wpn_lr300
+inv_name_short                           = st_wpn_lr300
+description                              = st_wpn_lr300_descr
+
+kind                                     = w_rifle
+inv_weight                               = 3.1
+cost                                     = 26480
+repair_type                              = rifle_5
+weapon_class                             = assault_rifle
+
+hud                                      = wpn_lr300_hud
+visual                                   = dynamics\weapons\wpn_lr300\wpn_lr300.ogf
+position                = -0.026, -0.080, 0.0
+orientation             = 0, 0, 0
+fire_point              = 0.000000,0.137000,0.539000
+fire_point2             = 0.000000,0.087000,0.469000
+strap_position         	= -0.15,-0.36,0.25			; position (offset) and orientation of the weapon when it is strapped
+strap_orientation      	= -10,-5,10				; (3rd person view in degrees)
+strap_bone0					= bip01_spine2
+strap_bone1					= bip01_spine1
+ph_mass                                  = 3
+
+flame_particles                          = weapons\generic_weapon05
+smoke_particles                          = weapons\generic_shoot_00
+grenade_flame_particles                  = weapons\generic_weapon01
+
+shell_point             				 = 0.120000, 0.000000, 0.070000
+shell_dir               				 = 0.0, 0.0, 0.4
+shell_particles         				 = weapons\556x45
+
+light_disabled                           = false
+light_color                              = 0.6, 0.5, 0.3
+light_range                              = 5
+light_time                               = 0.2
+light_var_color                          = 0.05
+light_var_range                          = 0.1
+
+upgrades                                 = up_gr_firstab_lr300, up_gr_seconab_lr300, up_gr_thirdab_lr300, up_gr_fourtab_lr300, up_gr_fifthab_lr300
+installed_upgrades                       =
+upgrade_scheme                           = upgrade_scheme_lr300
+upgr_icon_x                              = 600
+upgr_icon_y                              = 100
+upgr_icon_width                          = 300
+upgr_icon_height                         = 100
+
+fire_modes                               = 1, 3, -1
+ammo_class                               = ammo_5.56x45_fmj, ammo_5.56x45_fmj_bad, ammo_5.56x45_fmj_verybad, ammo_5.56x45_ss190, ammo_5.56x45_ss190_bad, ammo_5.56x45_ss190_verybad, ammo_5.56x45_ap, ammo_5.56x45_ap_bad, ammo_5.56x45_ap_verybad
+ammo_elapsed                             = 30
+ammo_mag_size                            = 30
+startup_ammo                             = 90
+
+scopes                                   = ac10632, acog, eot
+scope_status                             = 0
+scope_zoom_factor                        = 0
+
+silencer_name                            = wpn_sil_nato
+silencer_status                          = 2
+silencer_x                               = 227
+silencer_y                               = 14
+silencer_light_color                     = 0.6, 0.5, 0.3
+silencer_light_range                     = 0.01
+silencer_light_time                      = 0.2
+silencer_light_var_color                 = 0.05
+silencer_light_var_range                 = 0.5
+silencer_smoke_particles                 = weapons\generic_shoot_00
+
+grenade_class                            = ammo_m209, ammo_m209_bad, ammo_m209_verybad
+grenade_launcher_name                    = wpn_addon_grenade_launcher_m203
+grenade_launcher_status                  = 0
+grenade_launcher_x                       = 139
+grenade_launcher_y                       = 26
+launch_speed                             = 0
+
+hit_impulse                              = 25
+hit_power                                = 0.485, 0.485, 0.485, 0.485
+hit_type                                 = fire_wound
+fire_distance                            = 1000
+bullet_speed                             = 832
+rpm                                      = 930
+rpm_empty_click                          = 200
+
+use_aim_bullet                           = false
+time_to_aim                              = 0.0 ;  2.0
+zoom_dof                                 = 0.5, 1.0, 180
+zoom_enabled                             = true
+zoom_rotate_time                         = 0.25
+reload_dof                               = 0.0, 0.5, 5, 2
+control_inertion_factor = 1.0f
+crosshair_inertion                       = 4.5
+fire_dispersion_base                     = 0.325
+fire_dispersion_condition_factor         = 0.001
+
+misfire_probability                      = 0.005
+misfire_start_condition                  = 0.7 ;  0.86
+misfire_start_prob                       = 0.007
+misfire_end_condition                    = 0.12
+misfire_end_prob                         = 0.11
+
+condition_queue_shot_dec                 = 0.0009
+condition_shot_dec                       = 0.0009
+
+cam_return                               = 0
+cam_relax_speed                          = 12
+cam_dispersion                           = 0.556
+cam_dispersion_frac                      = 1.0
+cam_dispersion_inc                       = 0.0675
+cam_max_angle                            = 50.0
+cam_max_angle_horz                       = 50.0
+cam_step_angle_horz                      = 1.47
+zoom_cam_relax_speed                     = 12
+zoom_cam_dispersion                      = 0.466
+zoom_cam_dispersion_frac                 = 1.0
+zoom_cam_dispersion_inc                  = 0.0525
+zoom_cam_max_angle                       = 50.0
+zoom_cam_max_angle_horz                  = 50.0
+zoom_cam_step_angle_horz                 = 1.32
+
+PDM_disp_accel_factor                    = 1.745
+PDM_disp_base                            = 0.9
+PDM_disp_crouch                          = 1.0
+PDM_disp_crouch_no_acc                   = 1.0
+PDM_disp_vel_factor                      = 1.745
+
+cam_relax_speed_ai                       = 360
+zoom_cam_relax_speed_ai                  = 360
+holder_fov_modifier                      = 1.0
+holder_range_modifier                    = 1.0
+min_radius                               = 0
+max_radius                               = 500
+hit_probability_gd_novice                = 1.00
+hit_probability_gd_stalker               = 1.00
+hit_probability_gd_veteran               = 1.00
+hit_probability_gd_master                = 1.00
+
+kill_msg_x                               = 175
+kill_msg_y                               = 0
+kill_msg_width                           = 82
+kill_msg_height                          = 28
+
+snd_draw		= weapons\sig550\sig550_draw
+snd_holster		= weapons\p90\p90_hide
+snd_shoot		= weapons\lr300_unoff\shoot, -1.1
+snd_empty		= weapons\lr300_unoff\empty
+snd_reload              = weapons\lr300_unoff\reload
+snd_reload_empty        = weapons\lr300_unoff\reload_empty
+snd_changecartridgetype = weapons\lr300_unoff\reload
+snd_shoot_grenade       = weapons\m203\m203_shoot
+snd_load_grenade        = weapons\m203\m203_reload
+snd_change_grenade      = weapons\m203\m203_changegrenade
+snd_switch              = $silent
+snd_close		= $silent
+snd_reload_jammed       = weapons\lr300_unoff\revival
+snd_reload_jammed_last  = weapons\lr300_unoff\revival
+snd_jammed_click        = weapons\lr300_unoff\empty
+snd_unload_mag          = $silent
+snd_jam                 = $silent
+snd_breechblock         = $silent
+snd_fakeshoot_first	= weapons\lr300_unoff\empty
+snd_changefiremode	= weapons\l85\l85_firemode
+;snd_changefiremode_empty
+;snd_changefiremode_jammed
+snd_aim_start           = weapons\vss\vss_aim_start
+snd_aim_end             = weapons\vss\vss_aim_end
+snd_sprint_start        = weapons\detector_prepare
+snd_sprint_end          = weapons\pistol_sprint_end
+snd_suicide	        = weapons\suicide_start
+snd_stop_suicide	= weapons\suicide_end
+snd_laser_on	        = weapons\l85\l85_lam
+snd_laser_off	        = weapons\l85\l85_lam
+snd_torch_on	        = weapons\l85\l85_lam
+snd_torch_off	        = weapons\l85\l85_lam
+snd_headlamp_on         = weapons\headflash_on
+snd_headlamp_off        = weapons\headflash_off
+
+[wpn_lr300_hud]:hud_base
+item_visual                              = anomaly_weapons\wpn_lr300\wpn_lr300_hud.ogf
+attach_place_idx                         = 0
+zoom_hide_crosshair                      = true   
+
+hands_position		    = 0.0,0.01,-0.065
+hands_orientation	    = 0.0,0.0,0.0
+
+hands_position_16x9	    = 0.0,0.01,-0.065
+hands_orientation_16x9	    = 0.0,0.0,0.0
+
+;item_position		    = 0.0015,-0.002,0.0
+item_position		    = 0.0,0.0,0.0
+item_orientation	    = 0.0,-0.0,0.0
+
+aim_hud_offset_pos = -0.000200,-0.010200,-0.042000
+aim_hud_offset_rot = -0.000500,0.000100,0.000000
+
+aim_hud_offset_pos_16x9 = 0.000700,-0.008400,-0.042000
+aim_hud_offset_rot_16x9 = 0.001900,-0.001200,0.000000
+
+gl_hud_offset_pos          = 0.0,0.012,-0.05
+gl_hud_offset_rot          = 0.0,0.0,0.0
+
+gl_hud_offset_pos_16x9     = 0.0,0.012,-0.1
+gl_hud_offset_rot_16x9     = 0.0,0.0,0.0
+
+lean_hud_offset_pos        = 0,0,0
+lean_hud_offset_rot        = 0,0,0
+
+
+anm_hide                                 = lr300_unoff_hide
+anm_hide_g                 = lr300_unoff_glon_hide, glon_idle
+anm_hide_w_gl              = lr300_unoff_gloff_hide
+anm_idle                            = lr300_unoff_idle
+anm_idle_aim                   = lr300_unoff_aim, aim_idle
+anm_idle_aim_moving                      = lr300_unoff_aim_walk, aim_idle, 0.75
+anm_idle_aim_moving_crouch               = lr300_unoff_aim_walk, aim_idle, 0.7
+anm_idle_g                            = lr300_unoff_glon_idle, glon_idle
+anm_idle_moving                          = lr300_unoff_walk
+anm_idle_moving_crouch_g_aim             = lr300_unoff_glon_walk_slow_down, glon_idle, 0.7
+anm_idle_moving_crouch_w_gl_aim          = lr300_unoff_gloff_walk_slow_down, 0.7
+anm_idle_moving_g                        = lr300_unoff_glon_walk, glon_idle
+anm_idle_moving_g_aim                    = lr300_unoff_glon_walk, glon_idle, 0.75
+anm_idle_moving_w_gl                     = lr300_unoff_gloff_walk
+anm_idle_moving_w_gl_aim                 = lr300_unoff_gloff_walk, 0.75
+anm_idle_sprint                          = lr300_unoff_sprint
+anm_idle_sprint_g                        = lr300_unoff_glon_sprint, glon_idle
+anm_idle_sprint_w_gl                     = lr300_unoff_gloff_sprint
+anm_idle_w_gl                            = lr300_unoff_gloff_idle
+anm_idle_w_gl_aim                        = lr300_unoff_gloff_idle
+anm_reload                               = lr300_unoff_reload, reload
+anm_reload_g                             = lr300_unoff_gl_reload, gl_reload
+anm_reload_w_gl                          = lr300_unoff_gloff_reload, reload
+anm_shots                                = lr300_unoff_shoot, shoot
+anm_shots_g                              = lr300_unoff_glon_shoot, glon_idle
+anm_shots_w_gl                           = lr300_unoff_gloff_shoot, shoot
+anm_show                                 = lr300_unoff_draw
+anm_show_g                               = lr300_unoff_glon_draw, glon_idle
+anm_show_w_gl                            = lr300_unoff_gloff_draw 
+anm_switch_mode                               = lr300_unoff_gl_deactivate, gl_deactivate
+anm_switch_g                             = lr300_unoff_gl_activate, gl_activate
+
+anm_shots_aim                  = lr300_unoff_aim_shoot, aim_shoot
+anm_shots_aim_misfire	       = lr300_unoff_aim_shoot, aim_idle_jammed
+
+
+anm_idle_aim_start             = lr300_unoff_aim_start, aim_start
+anm_idle_aim_start_empty       = lr300_unoff_aim_start, aim_start_empty
+anm_idle_aim_start_jammed      = lr300_unoff_aim_start, aim_start_jammed
+
+anm_idle_aim_start_w_gl        = lr300_unoff_gloff_aim_start, aim_start
+anm_idle_aim_start_empty_w_gl  = lr300_unoff_gloff_aim_start, aim_start_empty
+anm_idle_aim_start_jammed_w_gl = lr300_unoff_gloff_aim_start, aim_start_jammed
+
+anm_idle_aim_start_g           = lr300_unoff_glon_aim_start, glon_idle
+anm_idle_aim_start_empty_g     = lr300_unoff_glon_aim_start, glon_idle_empty
+anm_idle_aim_start_jammed_g    = lr300_unoff_glon_aim_start, glon_idle_jammed
+
+
+anm_idle_aim_end               = lr300_unoff_aim_end, aim_end
+anm_idle_aim_end_empty         = lr300_unoff_aim_end, aim_end_empty
+anm_idle_aim_end_jammed        = lr300_unoff_aim_end, aim_end_jammed
+
+anm_idle_aim_end_w_gl          = lr300_unoff_gloff_aim_end, aim_end
+anm_idle_aim_end_empty_w_gl    = lr300_unoff_gloff_aim_end, aim_end_empty 
+anm_idle_aim_end_jammed_w_gl   = lr300_unoff_gloff_aim_end, aim_end_jammed
+
+anm_idle_aim_end_g             = lr300_unoff_glon_aim_end, glon_idle
+anm_idle_aim_end_empty_g       = lr300_unoff_glon_aim_end, glon_idle_empty
+anm_idle_aim_end_jammed_g      = lr300_unoff_glon_aim_end, glon_idle_jammed
+
+
+---SPRINT-------
+
+anm_sprint_start             = lr300_unoff_sprint_start
+anm_sprint_start_empty       = lr300_unoff_sprint_start, idle_empty
+anm_sprint_start_jammed      = lr300_unoff_sprint_start, idle_jammed
+
+anm_sprint_start_w_gl        = lr300_unoff_gloff_sprint_start
+anm_sprint_start_empty_w_gl  = lr300_unoff_gloff_sprint_start, idle_empty
+anm_sprint_start_jammed_w_gl = lr300_unoff_gloff_sprint_start, idle_jammed
+
+anm_sprint_start_g           = lr300_unoff_glon_sprint_start, glon_idle
+anm_sprint_start_empty_g     = lr300_unoff_glon_sprint_start, glon_idle_empty
+anm_sprint_start_jammed_g    = lr300_unoff_glon_sprint_start, glon_idle_jammed
+
+anm_sprint_end              = lr300_unoff_sprint_end
+anm_sprint_end_empty        = lr300_unoff_sprint_end, idle_empty
+anm_sprint_end_jammed       = lr300_unoff_sprint_end, idle_jammed
+
+anm_sprint_end_w_gl         = lr300_unoff_gloff_sprint_end
+anm_sprint_end_empty_w_gl   = lr300_unoff_gloff_sprint_end, idle_empty
+anm_sprint_end_jammed_w_gl  = lr300_unoff_gloff_sprint_end, idle_jammed
+
+anm_sprint_end_g            = lr300_unoff_glon_sprint_end, glon_idle
+anm_sprint_end_empty_g      = lr300_unoff_glon_sprint_end, glon_idle_empty
+anm_sprint_end_jammed_g     = lr300_unoff_glon_sprint_end, glon_idle_jammed
+
+
+ts_pattern_sprint_start          = .+, anm_idle_sprint, anm_sprint_start, 1
+ts_pattern_sprint_end            = anm_idle_sprint, ^anm_idle.*, anm_sprint_end
+ts_strict_sprint_end_move        = anm_sprint_start, anm_idle_moving, anm_sprint_end
+
+shell_point		           = 0.0,-9.0,0.0
+shell_dir                  = 0.0,0.0,0.0
+shell_bone	               = bolt
+
+fire_point              = 0.0, 0.0435,0.850
+fire_bone      	           = wpn_body
+fire_point2		   = 0.0,-0.075,0.697
+fire_bone2		   = wpn_body
+
+freelook_z_offset_mul					 = 0.4
+
+;------------------------------------------------------------------------------------------------
+[wpn_lr300_ac10632]:wpn_lr300
+1icon_layer                              = ac10632
+1icon_layer_x                            = 88
+1icon_layer_y                            = -10
+
+inv_weight                               = 3.215
+
+hud                                      = wpn_lr300_ac10632_hud
+visual                                   = dynamics\weapons\wpn_lr300\wpn_lr300_ac10632.ogf
+
+
+[wpn_lr300_ac10632_hud]:wpn_lr300_hud
+item_visual                              = anomaly_weapons\wpn_lr300\wpn_lr300_ac10632_hud.ogf
+
+aim_hud_offset_pos                       = -0.0885, 0.0759, -0.29
+aim_hud_offset_pos_16x9                  = -0.0885, 0.0759, -0.29
+
+gl_hud_offset_pos                        = -0.08728, -0.01045, -0.27
+gl_hud_offset_pos_16x9                   = -0.08728, -0.01045, -0.27
+gl_hud_offset_rot                        = -0.09, 0.0073, -0.004
+gl_hud_offset_rot_16x9                   = -0.09, 0.0073, -0.004
+
+anm_idle_aim                             = lancew_lr300_idle_aim, idle_aim
+anm_idle_w_gl_aim                        = lancew_lr300_idle_aim_w_gl, idle_aim
+anm_shots                                = lancew_lr300_shoot_scope, shoot
+anm_shots_w_gl                           = lancew_lr300_shoot_scope_w_gl, shoot
+
+;------------------------------------------------------------------------------------------------
+[wpn_lr300_acog]:wpn_lr300
+1icon_layer                              = acog
+1icon_layer_x                            = 74
+1icon_layer_y                            = -7
+
+inv_weight                               = 3.450
+
+hud                                      = wpn_lr300_acog_hud
+visual                                   = dynamics\weapons\wpn_lr300\wpn_lr300_acog.ogf
+
+scope_status                             = 0
+scope_zoom_factor                        = 20
+
+zoom_rotate_time                         = 0.25
+
+
+[wpn_lr300_acog_hud]:wpn_lr300_hud,hud_low_interia
+item_visual                              = anomaly_weapons\wpn_lr300\wpn_lr300_acog_hud.ogf
+
+aim_hud_offset_pos                       = -0.0868, 0.072775, -0.32
+aim_hud_offset_pos_16x9                  = -0.0868, 0.072775, -0.32
+aim_hud_offset_rot                       = 0.03, 0.0075, -0.00496
+aim_hud_offset_rot_16x9                  = 0.03, 0.0075, -0.00496
+
+gl_hud_offset_pos                        = -0.08728, -0.01045, -0.27
+gl_hud_offset_pos_16x9                   = -0.08728, -0.01045, -0.27
+gl_hud_offset_rot                        = -0.09, 0.0073, -0.004
+gl_hud_offset_rot_16x9                   = -0.09, 0.0073, -0.004
+
+;------------------------------------------------------------------------------------------------
+[wpn_lr300_eot]:wpn_lr300
+1icon_layer                              = eot
+1icon_layer_x                            = 100
+1icon_layer_y                            = -3
+
+inv_weight                               = 3.4
+
+hud                                      = wpn_lr300_eot_hud
+visual                                   = dynamics\weapons\wpn_lr300\wpn_lr300_eot.ogf
+
+
+[wpn_lr300_eot_hud]:wpn_lr300_hud
+item_visual                              = anomaly_weapons\wpn_lr300\wpn_lr300_eot_hud.ogf
+
+item_position                            = 0, 0, 0
+item_orientation                         = 0, 0, 0
+
+aim_hud_offset_pos                       = -0.0869,0.06309,-0.26
+aim_hud_offset_pos_16x9                  = -0.0869,0.06309,-0.26
+aim_hud_offset_rot                       = 0.0405, 0.0065, 0
+aim_hud_offset_rot_16x9                  = 0.0405, 0.0065, 0
+
+gl_hud_offset_pos                        = -0.08733, -0.0385, -0.27
+gl_hud_offset_pos_16x9                   = -0.08733, -0.0385, -0.27
+gl_hud_offset_rot                        = -0.124, 0.0073, -0.004
+gl_hud_offset_rot_16x9                   = -0.124, 0.0073, -0.004
+
+anm_idle_aim                             = lancew_lr300_idle_aim, idle_aim
+anm_idle_w_gl_aim                        = lancew_lr300_idle_aim_w_gl, idle_aim
+anm_shots                                = lancew_lr300_shoot_scope, shoot
+anm_shots_w_gl                           = lancew_lr300_shoot_scope_w_gl, shoot
