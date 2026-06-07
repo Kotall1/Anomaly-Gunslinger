@@ -1,0 +1,673 @@
+--gwr_eatable.script
+--Description: скрипт обеспечивает "красивое" поедание и использование предметов с появлением их в руках актора
+--Creator: Sin!
+--Last Edit: 24 Nov 2020
+
+--************************************************************
+--Принцип работы всего этого хозяйства:
+--Когда актор что-то жрёт, срабатывает соответствующий колбэк в bind_stalker'e
+--В этом колбэке мы проверяем, является ли "съеденный" предмет предметом с худом; если является, то спавним предмет-оружие, который указан в параметре hud съеденного предмета
+--Далее, мы через время, указанное в параметре timing (надо, чтобы анимация успела проиграться), проводим действия.
+--(Если, конечно же, актор до сих пор продолжает держать эту "аптеку" в руках :))
+--Мы спавним уже реально лечащий итэйбл-предмет (указанный в конфиге "худа"), который тут же съедаем.
+--************************************************************
+
+
+
+local ini = system_ini()
+local OUTFIT_SLOT = 7
+local HELMET_SLOT = 12
+
+--сюда запишем звук, который будет играться при использовании
+local current_sound 
+
+--Показывает, обрабатывать ли слоты быстрого использования обработчиком минимальной функциональности, который расположен на биндере
+--самого худового предмета, и вызывается один раз после съедения предмета
+--Если используется более продвинутый обработчик, который подключается в биндере актора, то имеет смысл выставить false
+
+local check_quickslots = true 
+
+--последний кадр, на котором вызвалась on_quickuse_suspected
+local quickuse_suspected_frame = 0
+
+function CheckOutfitUsageConditions(section)
+--******************************************************************************Проверим, можем ли мы жрать данный предмет при надетом шлеме/броне*******************************************************	
+	local helmet = db.actor:item_in_slot(HELMET_SLOT)
+	local outfit = db.actor:item_in_slot(OUTFIT_SLOT)
+	--Для этого сначала посмотрим, надет ли, собственно, сам шлем :)
+	if helmet ~= nil then	
+		--Шлем надет. Посмотрим, допускает ли предмет использование при надетом шлеме
+		if ini:line_exist(section, "helm_prohibited") and (ini:r_bool(section, "helm_prohibited") == true) then
+			--При надетом шлеме это есть нельзя... Тогда посмотрим, может, у нас шлем особенный?
+			local helm_sect = helmet:section()
+			if not (ini:line_exist(helm_sect, "food_exclusive_allowed") and (ini:r_bool(helm_sect, "food_exclusive_allowed")==true))  then
+				local upgr = level.get_parameter_upgraded_int(helmet:id(), "food_exclusive_allowed");
+				if upgr ~= 1 then
+					--И шлем нам есть ничего не позволяет... Плохо дело
+					--Тогда возвращаем актору предмет в инвентарь, что еще тут сделаешь...
+					alife():create(section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+					--Ну и напоминаем ему о том, что еда и шлем - вещи несовместимые
+					messenger.gwr_messenger("gwr_remove_your_helm", 3000)
+					return false
+				end
+			end
+		end
+	elseif  outfit ~= nil then  
+	--Аналогично для брони
+		if ini:line_exist(section, "full_outfit_prohibited") and (ini:r_bool(section, "full_outfit_prohibited") == true) then					
+			local out_sect = outfit:section()
+			if ini:line_exist(out_sect, "helmet_avaliable") and (ini:r_bool(out_sect, "helmet_avaliable")== false)  then
+				if not (ini:line_exist(out_sect, "food_exclusive_allowed") and (ini:r_bool(out_sect, "food_exclusive_allowed")==true))  then
+					local upgr = level.get_parameter_upgraded_int(outfit:id(), "food_exclusive_allowed");
+					if upgr ~= 1 then							
+						alife():create(section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())							
+						messenger.gwr_messenger("gwr_remove_your_outfit", 3000)							
+						return false
+					end
+				end
+			end
+		end
+	end		
+	
+	return true
+--*******************************************************************************************************************************************************************************************************	
+end;
+
+function OnItemUsed(section)
+
+--Сначала разбираемся с тем, что за объект нам подсунули.
+--Проверяем, есть ли у этого предмета худ.
+--Если худ есть, то смотрим, с чем нам работать дальше.
+--Если нам дали производный предмет (т.е. "надкусанный" актором), то смотрим базовый, и делаем с ним то, что указано дальше.
+--Если нам дали базовый объект аптеки (т.е. тот, который актор еще не успел "пожевать"), то делаем следующее:
+--Сначала читаем, сколько использований данного предмета допускается.
+--Затем читаем, какие производные предметы необходимы для каждого использования
+--Затем ищем в инвентаре актора наиболее "пожеваный" производный предмет
+--Если им является тот предмет, который мы только что съели, то ничего не делаем, в противном случае запоминаем найденный предмет, при этом спавним обратно съеденный, и релизим найденный
+
+--Теперь разбираемся с тем, можно ли нам вообще использовать такой предмет в данный момент.
+--Для этого проверяем, не занят ли тот слот, в который предполагается спавнить худовый предмет, чем-либо другим.
+--Если оказывается, что он занят, то спавним обратно обычный предмет, и заканчиваем деятельность.
+--Иначе - спавним наш худовый предмет
+
+	if not(ini:line_exist(section, "hud")) then			-- если не можем считать параметр для худа, то и пытаться работать дальше бессмысленно
+		--При раскомменчивании - будут проблемы с тем, что мы возвращаем предмет в инвентарь, когда уже применены эффекты
+		--if (level.get_game_difficulty()>=game_difficulty.master) and (not CheckOutfitUsageConditions(section)) then
+		--	return
+		--end	
+		
+		if ini:line_exist(section, "anabiotic") and (ini:r_bool(section, "anabiotic")==true) then
+			if db.storage[db.actor:id()].pstor["gwr_eat_slot"]~=nil then
+				db.storage[db.actor:id()].pstor["gwr_eat_slot"] = 0
+			end
+			anabiotic()
+		end
+		return
+	end
+
+	--если актор как-то заюзал предмет, полностью не освободившись от лап контролера - не даем использовать предметы
+	if level.is_actor_controlled() then
+		alife():create(section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+		return
+	end
+
+	--если у нас быстрое использование - ищем наиболее "надкусанный" предмет
+	if quickuse_suspected_frame == device().frame then 
+		-- читаем, какой предмет является базовым
+		local base_obj = section	
+		if ini:line_exist(section, "base_object") then
+			base_obj = ini:r_string(section, "base_object")
+		end
+		
+		--Читаем, сколько использований предмета допускается.
+		local uses_count = 1
+		if ini:line_exist(base_obj, "uses_count") then
+			uses_count = ini:r_s32(base_obj, "uses_count")
+		end
+		
+		--Теперь запоминаем, какие секции какому использованию соответствуют
+		local use_items = {}
+		local i
+			
+		
+		use_items[1] = base_obj
+		for i=2, uses_count do
+			use_items[i] = ini:r_string(base_obj, "using_"..tostring(i))		
+		end
+		
+		--Перебираем все предметы в инвентаре актора, ища наиболее полно использованный
+		local last_found = 1
+		local min_object
+		db.actor:iterate_inventory(function (tmp, item)	
+			local s = item:section()
+			for i=uses_count, last_found, -1 do
+				if (s==use_items[i]) and (i>=last_found) then
+					min_object = item
+					last_found = i
+				end
+			end
+		end, db.actor)
+		
+		--log1("Object "..min_object:section().." ready to use")
+		
+		
+		--if (min_object~=nil) and (min_object:section() ~= section) then
+		if (min_object:section() ~= section) then
+			--Тот предмет, который мы только что использовали, не являлся наиболее надкусанным. Релизим найденный, спавним использованный, попутно меняем секцию съеденного
+			alife():create(section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+			section = min_object:section()
+			alife():release(alife():object(min_object:id()), true)
+		end
+	end
+	
+	local helmet = db.actor:item_in_slot(HELMET_SLOT)
+	local outfit = db.actor:item_in_slot(OUTFIT_SLOT)
+	
+	--подмена секции для вариации костюмов
+	local section_for_spawn = section
+	
+	if outfit~=nil then 
+		local outfit_sect_param = "change_outfit_" .. outfit:section()
+		if (ini:line_exist(section, outfit_sect_param)) then
+			section = ini:r_string(section, outfit_sect_param)
+		end		
+	end	
+	
+	if (level.get_game_difficulty()>=game_difficulty.master) and (not CheckOutfitUsageConditions(section)) then
+		return
+	end
+	
+	--Разбираемся со слотом.
+	local hud_sect = ini:r_string(section, "hud")
+	local hud_slot = ini:r_string(hud_sect, "slot")+1
+	
+	--Если слот худового занят, то возвращаем съеденный предмет обратно, иначе спавним худовый.
+	if (db.actor:item_in_slot(hud_slot)~=nil) then
+		alife():create(section_for_spawn, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+	else
+		alife():create(hud_sect, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+	end
+	
+	
+end
+
+
+
+function init(obj)
+   local new_binder = gwr_eat_binder(obj)
+   obj:bind_object(new_binder)
+end
+
+class "gwr_eat_binder" (object_binder)
+function gwr_eat_binder:__init(obj) super(obj)
+
+	local sect = self.object:section()
+	--Сразу читаем из конфига параметры, которые нам пригодятся в работе
+	self.timing = ini:r_s32(sect, "timing")
+	
+	self.timing_early = self.timing
+	if ini:line_exist(sect, "timing_early") then
+		self.timing_early = ini:r_s32(sect, "timing_early")
+	end
+	
+	self.timing_trash = self.timing
+	if ini:line_exist(sect, "timing_trash") then
+		self.timing_trash = ini:r_s32(sect, "timing_trash")
+	end		
+	
+	self.eatable_section = ini:r_string(sect, "gwr_eatable_object")
+	self.fake_item_section = ini:r_string(sect, "gwr_changed_object")
+	
+	self.base_sect = self.fake_item_section
+	if ini:line_exist(self.fake_item_section, "base_object") then
+		self.base_sect = ini:r_string(self.fake_item_section, "base_object")
+	end
+	
+	if ini:line_exist(self.fake_item_section, "trash_object") then
+		if not (ini:line_exist(sect, "no_trash")) or not (ini:r_bool(sect, "no_trash")) then
+			self.trash_sect = ini:r_string(self.fake_item_section, "trash_object")
+		end
+	end
+	
+	self.trash_sect_nothrow = self.trash_sect 
+	if (self.trash_sect ~= nil) and ini:line_exist(self.fake_item_section, "trash_object_nothrow") then
+		self.trash_sect_nothrow = ini:r_string(self.fake_item_section, "trash_object_nothrow")
+	end
+	
+	self.uses_count = 1
+	if ini:line_exist(self.base_sect, "uses_count") then
+		self.uses_count = ini:r_s32(self.base_sect, "uses_count")
+	end
+	
+	self.next_sect = nil
+	
+	if self.fake_item_section == self.base_sect then
+		if self.uses_count>1 then
+			self.next_sect = ini:r_string(self.base_sect, "using_2")
+		end
+	else
+		for i=2, self.uses_count-1 do
+			if ini:r_string(self.base_sect, "using_"..tostring(i)) == self.fake_item_section then
+				self.next_sect = ini:r_string(self.base_sect, "using_"..tostring(i+1))
+				break
+			end
+		end
+	end
+	
+	--Звук, который будет воспроизводиться
+	if ini:line_exist(sect, "snd_using") then
+		self.use_sound = ini:r_string(sect, "snd_using")
+	end
+	--log1(self.use_sound)
+	
+	db.storage[db.actor:id()].pstor["gwr_eat_slot"] = db.actor:active_slot()
+	--log1("Last active slot is: "..tostring(self.lastslot))
+	
+	self.taken = false --флажок на то, что худ аптеки уже был активен
+	self.slot = ini:r_string(sect, "slot")+1
+	self.eatable = nil
+	self.eaten = false
+	self.dropped = false
+	self.wait_anim_end = false
+	
+	--log1(self.next_sect)
+	
+	local outfit = db.actor:item_in_slot(OUTFIT_SLOT)
+	if outfit ~= nil then
+		self.outfit_id = outfit:id()
+	end
+end
+
+--Апдейт биндера худовых предметов.
+
+function gwr_eat_binder:update()
+	object_binder.update(self, delta)
+	--Если мы уже заспавнили съедобный предмет в прошлом апдейте - самое время его съесть
+	if self.eatable~=nil then
+		local e = level.object_by_id(self.eatable.id)
+		db.actor:eat(e)
+		ProcessQuickslotsMin(self)
+		self.eatable = nil
+	end
+	
+	if (self.eaten == true) and (self.eatable == nil) and (self.wait_anim_end == false) and (db.storage[db.actor:id()].pstor["gwr_eat_slot"] ~= nil) then
+		if not ((db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"]~=nil) and (db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"]==true)) then
+			db.actor:activate_slot(db.storage[db.actor:id()].pstor["gwr_eat_slot"])
+		end
+		db.storage[db.actor:id()].pstor["gwr_eat_slot"] = nil
+		return	--не даем предмету убиться в этом апдейте, чтобы слот гарантированно успел активироваться
+	end
+	
+	--Для начала проверим, в слоте ли данный ли худовый предмет
+	local outfit_in_slot = db.actor:item_in_slot(OUTFIT_SLOT)
+	local itm_in_slot = db.actor:item_in_slot(self.slot)
+	if (itm_in_slot==nil) or (itm_in_slot:id()~=self.object:id())
+		or ((outfit_in_slot == nil) and (self.outfit_id ~= nil))
+		or ((outfit_in_slot ~= nil) and (outfit_in_slot:id() ~= self.outfit_id)) then --При неожиданной смене брони в слоте анима перезапускается, а потом резко обрывается скриптом по таймеру - непорядок. Завершаем принудительно.
+		--log1("Another item in slot!")
+				
+		if	self.eaten==false then
+			--Если успел заспавнится мусор - значит, актор произвел обязательные действия в аниме, не отыгралась только её концовка. 
+			--Включаем эффектор, концом анимы пренебрегаем
+			if db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]==true then
+				PrepareEffectorItem(self)
+				return
+			end	
+			
+			--В противном случае действия не выполнены... Что же, возвращаем в инвентарь изначальный фейковый предмет...
+			alife():create(self.fake_item_section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+			
+			--...попутно отрубая звук.
+			if current_sound~=nil then
+				--log1("Remove snd!")
+				if current_sound:playing()==true then current_sound:stop() end
+				current_sound = nil
+			end
+		elseif (self.wait_anim_end == true) and (self.trash_sect~=nil) and (db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]==nil) then
+			-- Итейбл отспавнился и был съеден, но мусор не заспавнен. Исправим это.
+			self:SpawnTrash(true)
+		end
+		ReleaseHudObject(self)
+		return
+	end
+	
+	local actslot = db.actor:active_slot()
+	
+	if (actslot==nil) or (actslot ~= self.slot) then
+		--Если вдруг у нас активировалась зона, в которой нельзя пользоваться оружием - самое время это исправить
+		if (bind_stalker.check_for_weapon_hide_by_zones()) and (db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"]==nil or db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"]~=true) then
+			local actor_binder = db.actor:binded_object()
+			if (actor_binder.weapon_hide~=nil) and (actor_binder.weapon_hide==true) then
+				db.actor:restore_weapon()
+				db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"] = true
+				--т.к. предмет исчез из рук - то не даем ему удалиться
+				self.taken = false
+			end
+		end
+		
+		if self.taken == true then
+			if	self.eaten==false then
+				--Если успел заспавнится мусор - значит, актор произвел обязательные действия в аниме, не отыгралась только её концовка. 
+				--Включаем эффектор, концом анимы пренебрегаем
+				if db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]==true then
+					PrepareEffectorItem(self)
+					db.storage[db.actor:id()].pstor["gwr_eat_slot"] = db.actor:active_slot()
+					return					
+				end
+				
+				alife():create(self.fake_item_section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+				
+				if current_sound~=nil then
+					--log1("Remove snd!")
+					if current_sound:playing()==true then current_sound:stop() end
+					current_sound = nil
+				end
+			elseif (self.wait_anim_end == true) and (self.trash_sect~=nil) and (db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]==nil) then
+				-- Итейбл отспавнился и был съеден, но мусор не заспавнен. Исправим это.
+				self:SpawnTrash(true)
+			end
+			ReleaseHudObject(self)
+			return
+		else 
+			--log1("activating my slot...")
+			
+			db.actor:activate_slot(self.slot)
+		end
+	else
+		if self.taken==false then
+			--Предмет только что взяли в руки
+			if db.storage[db.actor:id()].pstor["gwr_eat_eatable_spawned"] == nil then
+				self.taken = true
+				--если прописано - играем звук
+				if (self.use_sound~=nil) then
+					current_sound = sound_object(self.use_sound)
+					current_sound:play_at_pos(db.actor, vector ():set (0, 0, 0), 0, sound_object.s2d)
+				end
+				self.starttime = device():time_global()
+			else
+				--Возможно, был сейвлоад после назначения эффектора. Удаляем.
+				ReleaseHudObject(self)
+				return
+			end
+		else
+			if (self.trash_sect~=nil) and (device():time_global() - self.starttime > self.timing_trash) and (db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]==nil) then
+				self:SpawnTrash(false)
+			end
+			
+			if (device():time_global() - self.starttime > self.timing) then
+				self.wait_anim_end = false
+				if (self.eaten==false) then
+					PrepareEffectorItem(self)
+				end
+				
+				if self.dropped == false then
+					db.actor:drop_item(db.actor:active_item())
+					self.dropped = true
+				end
+			elseif (device():time_global() - self.starttime > self.timing_early) and (self.eaten==false) then
+				self.wait_anim_end = true
+				PrepareEffectorItem(self)
+			end
+		end
+	end
+end
+
+function gwr_eat_binder:SpawnTrash(try_disable_throw)
+	local tr_sect = self.trash_sect
+	if try_disable_throw and (self.trash_sect_nothrow ~= nil) then
+		tr_sect = self.trash_sect_nothrow
+	end
+
+	--log1("Create: "..tr_sect)
+	local pos = device().cam_pos
+	local throw_offset_x = -0.1
+	local throw_offset_y = 0.2
+	local throw_offset_z = 0
+	if ini:line_exist(tr_sect, "throw_offset_x") then
+		throw_offset_x = ini:r_float(tr_sect, "throw_offset_x")
+	end
+	if ini:line_exist(tr_sect, "throw_offset_y") then
+		throw_offset_y = ini:r_float(tr_sect, "throw_offset_y")
+	end
+	if ini:line_exist(tr_sect, "throw_offset_z") then
+		throw_offset_z = ini:r_float(tr_sect, "throw_offset_z")
+	end
+	
+	pos = pos:add(device().cam_top:mul(throw_offset_y))
+	pos = pos:add(device().cam_dir:mul(throw_offset_x))	
+	pos = pos:add(device().cam_right:mul(throw_offset_z))
+
+	local srv_id = alife():create(tr_sect, pos, db.actor:level_vertex_id(), db.actor:game_vertex_id()).id
+		
+	db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]=true
+end
+
+function PrepareEffectorItem(hud_binder)
+	hud_binder.eatable = alife():create(hud_binder.eatable_section, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+	hud_binder.eaten = true
+	db.storage[db.actor:id()].pstor["gwr_eat_eatable_spawned"] = true
+end
+
+function ReleaseHudObject(caller)
+	if (db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"]~=nil) and (db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"]==true) then
+		db.actor:hide_weapon()	--делаем обязательно, ДАЖЕ ЕСЛИ отработал анхайдер в апдейте актора
+	end
+	
+	if (caller.next_sect~=nil) and (caller.eaten == true) then
+		alife():create(caller.next_sect, db.actor:position(), db.actor:level_vertex_id(), db.actor:game_vertex_id(), db.actor:id())
+	end
+	
+	db.storage[db.actor:id()].pstor["gwr_eat_eatable_spawned"] = nil
+	db.storage[db.actor:id()].pstor["gwr_eat_trash_spawned"]=nil
+	db.storage[db.actor:id()].pstor["gwr_eat_unlockdone"] = nil
+	db.storage[db.actor:id()].pstor["gwr_eat_slot"] = nil
+	alife():release(alife():object(caller.object:id()), true)
+end
+
+
+--Быстрый обработчик квикслотов минимальной функциональности
+--Нужен для отработки предметов с поэтапным использованием
+--Используется по дефаулту, если не было произведено подключение продвинутого обработчика квикслотов в апдейт актора
+function ProcessQuickslotsMin(caller)
+	--если стоит параметр игнора этого обработчика или в инвентаре остались еще схожие предметы - то завершаем работу
+	if (check_quickslots==false) or (caller.uses_count==1) then
+		return
+	end	
+	if db.actor:object(caller.fake_item_section) then
+		return
+	end
+	
+	--Теперь переберем все квикслоты, и посмотрим, в каких наш предмет стоит
+	--Занесем результаты в эту таблицу
+	local target_slots = {}
+	local console = get_console()
+	local i
+	for i=0, 3 do
+		local sect_in_slot = console:get_string("slot_"..tostring(i))
+		if sect_in_slot == caller.fake_item_section then 
+			table.insert(target_slots, "slot_"..tostring(i)) 
+		end		
+	end
+	
+	--Если в слотах нашего предмета нет - то и работать дальше бессмысленно
+	if #target_slots == 0 then return end
+	
+	--Смотрим, какой предмет из данной ветки использований есть в инвентаре актора; приоритет - наиболее неиспользованному
+	local change_to
+	if db.actor:object(caller.base_sect) then 
+		change_to = caller.base_sect
+	else
+		for i=2, caller.uses_count do		
+			local itm = ini:r_string(caller.base_sect, "using_"..tostring(i))		
+			if change_to==nil then 
+				if db.actor:object(itm) then 
+					change_to = itm
+					break
+				end 
+			end
+		end
+	end
+	
+	--если никакого нет - менять будем на базовый
+	change_to = change_to or caller.base_sect
+	--меняем предметы в слотах
+	for i=1, #target_slots do
+		console:execute(target_slots[i].." "..change_to)
+	end	
+end
+
+
+--Обработчик квикслотов, вызываемый из биндера актора
+--Перекрывает ProcessQuickslotsMin
+function ProcessQuickslotsUpdate()
+	--Показываем ProcessQuickslotsMin, что работать не надо
+	check_quickslots=false
+	
+	--Переберем все предметы в квикслотах
+	local console = get_console()
+	for j=0, 3 do while true do		
+		local current_section = console:get_string("slot_"..tostring(j))
+		--проверим, худовый ли предмет к нам попал
+		if not(ini:line_exist(current_section, "hud")) then
+			break
+		end
+		local base_section = current_section	
+		if ini:line_exist(current_section, "base_object") then
+			base_section = ini:r_string(current_section, "base_object")
+		end
+		local uses_count = 1
+		if ini:line_exist(base_section, "uses_count") then
+			uses_count = ini:r_s32(base_section, "uses_count")
+		end
+		
+		--Если предмет одноразовый - то шаманства бессмысленны
+		if uses_count==1 then
+			break
+		end
+		--Теперь посмотрим, какой предмет в инвентаре наиболее целый		
+		local change_to
+		if db.actor:object(base_section) then 
+			change_to = base_section 
+		else
+			for i=2, uses_count do		
+				local tmp = ini:r_string(base_section, "using_"..tostring(i))		
+				if change_to==nil then 
+					if db.actor:object(tmp) then 
+						change_to = tmp 
+						break
+					end 
+				end
+			end
+		end
+		--если предметов нет вообще - ставим базовый
+		change_to = change_to or base_section
+		if change_to~=current_section then
+			console:execute("slot_"..tostring(j).." "..change_to)		
+		end
+	break end end
+end
+
+function anabiotic()
+	xr_effects.disable_ui_only(db.actor, nil)
+	level.add_cam_effector("camera_effects\\surge_02.anm", 10, false, "bind_stalker.anabiotic_callback")
+	level.add_pp_effector("surge_fade.ppe", 11, false)
+	give_info("anabiotic_in_process")
+	_G.mus_vol = get_console():get_float("snd_volume_music")
+	_G.amb_vol = get_console():get_float("snd_volume_eff")
+	get_console():execute("snd_volume_music 0")
+	get_console():execute("snd_volume_eff 0")
+end
+
+function init_trash(obj)
+   local new_binder = gwr_trash_binder(obj)
+   obj:bind_object(new_binder)
+end
+
+class "gwr_trash_binder" (object_binder)
+function gwr_trash_binder:__init(obj) super(obj)
+	self.throw_dir = ini:r_string(self.object:section(), "throw_dir")
+	self.timing = 30
+	if ini:line_exist(self.object:section(), "remove_time") then
+		self.timing = ini:r_s32(self.object:section(), "remove_time")
+	end
+	
+	self.impulse = 50
+	if ini:line_exist(self.object:section(), "throw_impulse_z") then
+		self.impulse = ini:r_float(self.object:section(), "throw_impulse_z")
+	end
+	
+	self.impulse_y = 0.05
+	if ini:line_exist(self.object:section(), "throw_impulse_y") then
+		self.impulse_y = ini:r_float(self.object:section(), "throw_impulse_y")
+	end	
+	
+	self.timing = self.timing*1000
+	self.starttime = device():time_global()
+end
+
+function gwr_trash_binder:update(delta)
+	object_binder.update(self, delta)
+	if device():time_global() - self.starttime < self.timing then
+		if db.actor~=nil and db.storage[db.actor:id()].pstor["gwr_eat_trash_"..tostring(self.object:id())]==nil then
+			--надо пнуть объект в сторону от актора
+
+			local dir=GetThrowDir(self.throw_dir)
+			dir.y = self.impulse_y
+			
+			local h = hit()			
+			h.direction = dir
+			h.draftsman = db.actor
+			h.impulse = self.impulse
+			h.power = 0
+			h.type = 2
+			self.object:hit(h)
+			if db.actor~=nil then
+				db.storage[db.actor:id()].pstor["gwr_eat_trash_"..tostring(self.object:id())]= true
+			end
+		end	
+	else
+		--log1("releasing...")
+		if db.actor~=nil then
+			db.storage[db.actor:id()].pstor["gwr_eat_trash_"..tostring(self.object:id())]= nil
+		end
+		alife():release(alife():object(self.object:id()), true)
+	end
+end
+
+function GetThrowDir(dir)
+		if dir=="left" then 
+			local v = device().cam_right
+			v.x = (-1) * v.x
+			v.y = (-1) * v.y
+			v.z = (-1) * v.z
+			return v
+		elseif dir=="right" then
+			local v = device().cam_right
+			return v
+		elseif dir=="forward" then
+			local v = device().cam_dir
+			return v
+		elseif dir=="back" then
+			local v = device().cam_dir
+			v.x = (-1) * v.x
+			v.z = (-1) * v.z
+			return v
+		end
+end
+
+function gwr_trash_binder:net_destroy()
+	--log1("releasing...(net_destroy)")
+	if db.actor~=nil then
+		db.storage[db.actor:id()].pstor["gwr_eat_trash_"..tostring(self.object:id())]= nil
+	end
+	local o = alife():object(self.object:id())
+	if o ~= nil then
+		alife():release(o, true)
+	end
+    object_binder.net_destroy(self)
+end
+
+function on_quickuse_suspected(temp1, temp2)
+--	get_console():execute("load quickuse_suspected")
+	quickuse_suspected_frame = device().frame
+end
